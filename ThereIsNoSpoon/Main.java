@@ -21,50 +21,57 @@ class Player {
         for (int i = 0; i < height; i++) {
             String line = in.nextLine(); // width characters, each either 0 or .
             lines[i] = line.split("");
+            System.err.println(line);
         }
 
         String right = "";
         String bottom = "";
         String node = "";
 
-        for(int column = 0; column < lines[0].length; column++) {
+        for(int y = 0; y < lines.length; y++) {
             
-            for(int row = 0; row < lines.length; column++) {
+            for(int x = 0; x < lines[y].length; x++) {
                 
-                if(lines[row][column].equals("0")) { //if the current position is a node
-                    System.err.println("Found node at(" + row + ", " + column +")" ); 
-                    node = row + " " + column;
-                }
-
-                for(int rightIndex = column + 1; rightIndex < lines[row].length; rightIndex++) {
-
-                    if(lines[row][rightIndex].equals("0")) { //if the current position is a node 
-                        right = row + " " + rightIndex;
-                        System.err.println("Found right at(" + row + ", " + rightIndex +")" ); 
-                        break; //Substitute for a while
-                    }
-                }
-
-                if(right.equals("")) {
-                    right = "-1 -1";
-                }
-
-                for(int bottomIndex = row + 1; bottomIndex < lines.length; bottomIndex++) {
-                    if(lines[bottomIndex][column].equals("0")) { //if the current position is a node 
-                        bottom = bottomIndex + " " + column;
-                        System.err.println("Found bottom at(" + bottomIndex + ", " + column +")" ); 
-                        break; //Substitute for a while
-                    }
-                }
-
-                if(bottom.equals("")) {
-                    bottom = "-1 -1";
-                }
-                
-                System.out.println(node + " " + right + " " + bottom);
-                right = "";
-                bottom = "";
+                right = "-1 -1";;
+                bottom = "-1 -1";;
                 node = "";
+
+                boolean nodeFound = false;
+
+                if(lines[y][x].equals("0")) { //if the current position is a node
+                    System.err.println("Found node at(" + x + ", " + y +")" ); 
+                    node = x + " " + y;
+                    nodeFound = true;
+                }
+
+                if(nodeFound) {
+                    boolean rightFound = false;
+                    int rightIndex = x + 1;
+
+                    while(!rightFound && rightIndex < lines[y].length) {
+
+                        if(lines[y][rightIndex].equals("0")) { //if the current position is a node 
+                            right = rightIndex + " " + y;
+                            System.err.println("Found right at(" + rightIndex + ", " + y +")" ); 
+                            rightFound = true;
+                        }
+                        rightIndex++;
+                    }
+
+                    boolean bottomFound = false;
+                    int bottomIndex = y + 1;
+
+                    while(!bottomFound && bottomIndex < lines.length) {
+                        if(lines[bottomIndex][x].equals("0")) { //if the current position is a node 
+                            bottom = x + " " + bottomIndex;
+                            System.err.println("Found bottom at(" + x + ", " + bottomIndex +")" ); 
+                            bottomFound = true;
+                        }
+                        bottomIndex++;
+                    }
+                    System.out.println(node + " " + right + " " + bottom);
+                    System.err.println(node + " " + right + " " + bottom);
+                }
             }
         }
     }
